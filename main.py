@@ -207,6 +207,8 @@ website_maps = [
     ['Discord', 'https://discord.com'],
     ['Vimeo', 'https://vimeo.com'],
     ['Portfoilo', 'https://arnav-srivastava-portfolio.vercel.app'],
+    ['Website', 'https://velion-assistant.vercel.app/'],
+    ['Documentation', 'https://velion-assistant.vercel.app/docs'],
 ]
 
 
