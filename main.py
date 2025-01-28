@@ -2,12 +2,8 @@ import speech_recognition as sr
 import pyttsx3
 import datetime
 import webbrowser
-import os
-import wikipedia
 import time
-import subprocess
 from ecapture import ecapture as ec
-import wolframalpha
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -354,8 +350,8 @@ if __name__ == '__main__':
             speak(f"Searching for {statement} on Google...")
             time.sleep(5)
 
-        elif 'wiki' in statement:
-            statement = statement.replace("wiki", "").strip()
+        elif 'wikipedia' in statement:
+            statement = statement.replace("wikipedia ", "").strip()
             search_url = f"https://en.wikipedia.org/w/index.php?search={statement.replace(' ', '+')}"
             webbrowser.open_new_tab(search_url)
             speak(f"Searching for {statement} on Wikipedia...")
@@ -395,6 +391,21 @@ if __name__ == '__main__':
             ]
             speak(random.choice(jokes))
 
+        elif 'motivate' in statement or 'motivation' in statement:
+            quotes = [
+                "The only way to do great work is to love what you do. - Steve Jobs",
+                "Success is not the key to happiness. Happiness is the key to success. - Albert Schweitzer",
+                "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+                "Believe you can and you're halfway there. - Theodore Roosevelt",
+                "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+                "Your limitation—it's only your imagination.",
+                "Push yourself, because no one else is going to do it for you.",
+                "Great things never come from comfort zones.",
+                "Dream it. Wish it. Do it.",
+                "Success doesn’t just find you. You have to go out and get it."
+            ]
+            speak(random.choice(quotes))
+
         elif 'riddle' in statement:
             riddles = [
                 "What has keys but can't open locks....? A piano.",
@@ -414,6 +425,25 @@ if __name__ == '__main__':
                 "What begins with T, ends with T, and has T in it....? A teapot."
             ]
             speak(random.choice(riddles))
+
+        elif 'book' in statement or 'recommend' in statement:
+            books = [
+                "The Alchemist by Paulo Coelho",
+                "The Little Prince by Antoine de Saint-Exupéry",
+                "To Kill a Mockingbird by Harper Lee",
+                "1984 by George Orwell",
+                "Harry Potter and the Philosopher's Stone by J.K. Rowling",
+                "The Lord of the Rings by J.R.R. Tolkien",
+                "Pride and Prejudice by Jane Austen",
+                "The Great Gatsby by F. Scott Fitzgerald",
+                "The Catcher in the Rye by J.D. Salinger",
+                "Animal Farm by George Orwell",
+                "The Hobbit by J.R.R. Tolkien",
+                "The Da Vinci Code by Dan Brown",
+                "The Kite Runner by Khaled Hosseini",
+            ]
+            speak(random.choice(books))
+
 
     
         elif 'repeat' in statement:
