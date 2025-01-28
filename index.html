@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velion - Your AI Personal Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div>
+                Velion
+            </a>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="docs.html">Documention</a></li>
+                <li><a href="#" class="cta-button" id="tryBtn">Try Velion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div class="stars"></div>
+        <div class="container">
+            <h1>Velion AI Assistant</h1>
+            <p class="tagline">Your intelligent companion for seamless voice interaction</p>
+            <a href="#" class="cta-button" id="headerTryBtn">Get Started</a>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Core Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <i class="fas fa-microphone"></i>
+                    <h3>Voice Recognition</h3>
+                    <p>Natural voice interaction with advanced speech recognition technology</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Weather Updates</h3>
+                    <p>Real-time weather information and forecasts at your command</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>Currency Conversion</h3>
+                    <p>Instant currency conversion with up-to-date exchange rates</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-music"></i>
+                    <h3>Spotify Integration</h3>
+                    <p>Control your music playback with simple voice commands</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-globe"></i>
+                    <h3>Web Access</h3>
+                    <p>Browse websites and access information hands-free</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-clock"></i>
+                    <h3>Smart Alarms</h3>
+                    <p>Set and manage alarms with voice commands</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-laugh"></i>
+                    <h3>Entertainment</h3>
+                    <p>Enjoy jokes, quotes, riddles, and book recommendations</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Error Handling</h3>
+                    <p>Robust error handling for reliable voice recognition</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>See Velion in Action</h2>
+            <div class="demo-container">
+                <div class="demo-interface">
+                    <div class="demo-screen">
+                        <div class="demo-content">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message assistant">
+                                    <p>Hello! I'm Velion. How can I assist you today? Note - This is a website model for demo purpose please use the actual assistant for real time use.</p>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <button class="mic-button" id="micButton">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                                <input type="text" placeholder="Type your message..." id="messageInput">
+                                <button class="send-button" id="sendButton">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I start using Velion?</h3>
+                        <span class="toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Simply click the "Get Started" button and follow the setup instructions. Velion works right out of the box with no complex configuration needed.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What voice commands can I use?</h3>
+                        <span class="toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Velion understands natural language commands for weather, music, alarms, web searches, and more. Just speak naturally and Velion will understand your intent.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Does Velion work offline?</h3>
+                        <span class="toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Velion requires an internet connection for most features to work properly, including voice recognition and API integrations.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is my data secure?</h3>
+                        <span class="toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we take privacy seriously. All voice data is processed securely and we don't store any personal information without your explicit consent.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <a href="#" class="logo">
+                        <div class="logo-icon"></div>
+                        Velion
+                    </a>
+                    <p>Making your life easier through voice interaction</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
