@@ -1,7 +1,6 @@
 import speech_recognition as sr
 import pyttsx3
 import datetime
-import wikipediaapi
 import webbrowser
 import os
 import wikipedia
@@ -9,10 +8,12 @@ import time
 import subprocess
 from ecapture import ecapture as ec
 import wolframalpha
-import wikipediaapi
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from colorama import Fore, Back, Style
+import random
+import json
 
 print("Loading your AI personal assistant - Velion")
 
@@ -22,42 +23,48 @@ voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
 # Function to make the assistant speak
-def speak(text):
+def speak(text, echo=True, wait=True, speaker="Velion"):
+    if echo: print(Style.BRIGHT+speaker+Style.RESET_ALL+":", text)
     engine.say(text)
-    engine.runAndWait()
+    try:
+        if wait: engine.runAndWait()
+    except Exception:
+        pass
 
 # Greeting function based on time of day
 def wishMe():
     hour = datetime.datetime.now().hour
+    print(Style.BRIGHT+Back.LIGHTGREEN_EX+Fore.GREEN,end="")
     if 0 <= hour < 12:
-        speak("Hello, Good Morning")
-        print("Hello, Good Morning")
+        print("Hello, Good Morning", end=Style.RESET_ALL+"\n")
+        speak("Hello, Good Morning", echo=False)
     elif 12 <= hour < 18:
-        speak("Hello, Good Afternoon")
-        print("Hello, Good Afternoon")
+        print("Hello, Good Afternoon", end=Style.RESET_ALL+"\n")
+        speak("Hello, Good Afternoon", echo=False)
     else:
-        speak("Hello, Good Evening")
-        print("Hello, Good Evening")
+        print("Hello, Good Evening", end=Style.RESET_ALL+"\n")
+        speak("Hello, Good Evening", echo=False)
+    print()
 
 
 
 # Function to recognize user voice input
-def takeCommand():
+def takeCommand(parseErrorPlayback = True):
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening...")
         r.adjust_for_ambient_noise(source, duration=1)  # Calibrate for ambient noise
+        print("Listening...", end='\r')
         audio = r.listen(source)
 
         try:
             statement = r.recognize_google(audio, language='en-in')
-            print(f"user said: {statement}\n")
         except sr.UnknownValueError:
-            speak("I'm sorry, I didn't catch that. Could you please repeat?")
+            if parseErrorPlayback: speak("I'm sorry, I didn't catch that. Could you please repeat?")
             return "None"
         except sr.RequestError:
             speak("Sorry, I can't connect to the speech recognition service.")
             return "None"
+        print(f"{Style.BRIGHT}You: {Style.RESET_ALL}{statement}      ")
         return statement.lower()
     
 #Alram Mechanism
@@ -85,12 +92,7 @@ def set_alarm():
     else:
         speak("I couldn't get the alarm time. Please try again.")
 
-def convert_currency():
-    speak("Please tell me the amount and the currency you want to convert.")
-    
-    # Take the user's command (amount and currencies)
-    statement = takeCommand()
-    
+def convert_currency(statement):
     if "convert" in statement:
         try:
             # Example: "convert 100 USD to EUR"
@@ -100,7 +102,10 @@ def convert_currency():
             to_currency = words[4].upper()  # To currency code (e.g., EUR)
             
             # ExchangeRate-API (Free API)
-            api_key = "YOUR_API_KEY"  # Replace with your actual API key
+            api_key = "63141497a9a268cd7fe7df7b"  # Replace with your actual API key
+                    # E-mail: kayogec629@bmixr.com
+                    # Password: password123
+
             url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{from_currency}"
             
             # Get exchange rates
@@ -114,16 +119,16 @@ def convert_currency():
                 if conversion_rate:
                     converted_amount = amount * conversion_rate
                     speak(f"{amount} {from_currency} is equal to {converted_amount:.2f} {to_currency}")
-                    print(f"{amount} {from_currency} is equal to {converted_amount:.2f} {to_currency}")
                 else:
-                    speak(f"Sorry, I couldn't find the conversion rate for {to_currency}")
+                    webbrowser.open_new_tab(f"https://www.google.com/search?q={statement.replace(' ', '+')}")
+                    speak(f"Sorry, I couldn't find the conversion rate for {to_currency}. Heres the best I can do.")
             else:
-                speak("Sorry, there was an issue with the currency conversion API.")
+                # Backup method: just search for it on google...
+                webbrowser.open_new_tab(f"https://www.google.com/search?q={statement.replace(' ', '+')}")
+                speak("Sorry, there was an issue with the currency conversion API. Heres the best I can do.")
         except Exception as e:
             speak("Sorry, I couldn't understand the conversion details.")
             print(e)
-    else:
-        speak("I couldn't get the details for currency conversion. Please try again.")
 
 
 
@@ -151,7 +156,6 @@ def play_music_on_spotify(query):
             spotify_url = track['external_urls']['spotify']
 
             speak(f"Playing {track_name} by {artist_name}.")
-            print(f"Playing {track_name} by {artist_name}. Link: {spotify_url}")
             webbrowser.open(spotify_url)
         else:
             speak("Sorry, I couldn't find any matching songs on Spotify.")
@@ -162,89 +166,163 @@ def play_music_on_spotify(query):
 # Main program starts here
 wishMe()
 
+website_maps = [
+    ['YouTube', 'https://youtube.com'],
+    ['Google', 'https://google.com'],
+    ['Gmail', 'https://mail.google.com'],
+    ['Stack Overflow', 'https://stackoverflow.com'],
+    ['Chat GPT', 'https://chatgpt.com'],
+    ['GitHub', 'https://github.com/HaiCLOP/Velion-Assistant'],
+    ['School', 'https://www.dpsdibrugarh.org'],
+    ['Facebook', 'https://www.facebook.com'],
+    ['Internet Archive', 'https://archive.org'],
+    ['Wayback Machine', 'http://web.archive.org'],
+    ['QR code generator', 'https://new.express.adobe.com/tools/generate-qr-code'],
+    ['Adobe', 'https://www.adobe.com'],
+    ['Instagram', 'https://www.instagram.com'],
+    ['Reddit', 'https://www.reddit.com'],
+    ['Twitter', 'https://twitter.com'],
+    ['LinkedIn', 'https://www.linkedin.com'],
+    ['Pinterest', 'https://www.pinterest.com'],
+    ['Snapchat', 'https://www.snapchat.com'],
+    ['WhatsApp', 'https://www.whatsapp.com'],
+    ['TikTok', 'https://www.tiktok.com'],
+    ['Spotify', 'https://www.spotify.com'],
+    ['Amazon', 'https://www.amazon.com'],
+    ['eBay', 'https://www.ebay.com'],
+    ['Netflix', 'https://www.netflix.com'],
+    ['Wikipedia', 'https://www.wikipedia.org'],
+    ['IMDB', 'https://www.imdb.com'],
+    ['BBC', 'https://www.bbc.com'],
+    ['CNN', 'https://www.cnn.com'],
+    ['NY Times', 'https://www.nytimes.com'],
+    ['Wired', 'https://www.wired.com'],
+    ['Medium', 'https://medium.com'],
+    ['Quora', 'https://www.quora.com'],
+    ['Hacker News', 'https://news.ycombinator.com'],
+    ['GitLab', 'https://gitlab.com'],
+    ['Bitbucket', 'https://bitbucket.org'],
+    ['CodePen', 'https://codepen.io'],
+    ['JSFiddle', 'https://jsfiddle.net'],
+    ['Jira', 'https://www.atlassian.com/software/jira'],
+    ['Trello', 'https://trello.com'],
+    ['Slack', 'https://slack.com'],
+    ['Zoom', 'https://zoom.us'],
+    ['Discord', 'https://discord.com'],
+    ['Vimeo', 'https://vimeo.com'],
+    ['Portfoilo', 'https://arnav-srivastava-portfolio.vercel.app'],
+]
+
+
+
 
 if __name__ == '__main__':
+    failed = False
     while True:
-        speak("How can I assist you?")
+        if not failed: speak("How can I assist you?")
         statement = takeCommand()
-
+        failed = False
         # Continue if no command was detected
-        if statement == "none":
+        if statement == "None":
+            failed = True
             continue
-
-        # Exit condition
-        if "good bye" in statement or "ok bye" in statement or "stop" in statement or 'goodbye' in statement:
-            speak("Your personal assistant Velion is shutting down. Goodbye!")
-            print("Your personal assistant Velion is shutting down. Goodbye!")
-            break
+        
+        elif 'convert' in statement:
+            convert_currency(statement)
 
         elif statement.startswith("play "):
             song_query = statement.replace("play ", "").strip()
             play_music_on_spotify(song_query)
+            continue
+
+        opened_website = False
+        # Website mappings
+        for kw, url in website_maps:
+            if "open "+kw.lower() in statement:
+                speak(f"Opening {kw}", wait=False)
+                webbrowser.open_new_tab(url)
+                opened_website = True
+        if opened_website: continue
 
 
-        elif 'open youtube' in statement:
-            webbrowser.open_new_tab("https://www.youtube.com")
-            speak("YouTube is open now")
-            time.sleep(5)
-
-        elif 'open google' in statement:
-            webbrowser.open_new_tab("https://www.google.com")
-            speak("Google Chrome is open now")
-            time.sleep(5)
-
-        elif 'open gmail' in statement:
-            webbrowser.open_new_tab("https://gmail.com")
-            speak("Google Mail is open now")
-            time.sleep(5)
-
-
-        elif 'how are you' in statement or 'how r u' in statement:
+        if 'how are you' in statement or 'how r u' in statement:
             speak("I am doing well, thank you for asking!")
 
         elif 'purpose' in statement:
-            speak("I am an AI assistant designed to assist you with various tasks and answer your questions")
-        elif 'developer' in statement:
-            speak("I was developed by Arnav Srivastava of class 8 b of Delhi Public School Dibrugarh")
+            speak("I am a voice assistant designed to assist you with various tasks and answer your questions")
+        elif 'develop' in statement:
+            speak("I was developed by Arnav Srivastava and Kavyansh Khaitan of class 8 of Delhi Public School Dibrugarh")
 
         # Weather functionality using WeatherAPI
         elif "weather" in statement:
             api_key = "caddc69f50ea4a08bd5152014241004"  
             base_url = "http://api.weatherapi.com/v1/current.json?"
+
             speak("Please tell me the name of a place.")
-            city_name = takeCommand()
-            if city_name != "none":
-                complete_url = base_url + "key=" + api_key + "&q=" + city_name
-                response = requests.get(complete_url)
-                x = response.json()
-                if "error" not in x:
-                    current_temperature = x['current']['temp_c']
-                    current_humidity = x['current']['humidity']
-                    weather_description = x['current']['condition']['text']
-                    speak(f"The temperature in {city_name} is {current_temperature} degrees Celsius with {weather_description} and humidity at {current_humidity} percent.")
-                    print(f"Temperature (Celsius): {current_temperature}\nHumidity: {current_humidity}\nDescription: {weather_description}")
-                else:
-                    speak("City not found.")
+            while True:
+                city_name = takeCommand(parseErrorPlayback = False)
+                if city_name != "None": break
+                speak("Could you repeat that please?")
+            
+            complete_url = f"{base_url}key={api_key}&q={city_name}"
+            response = requests.get(complete_url)
+            x = response.json()
+            if "error" not in x:
+                current_temperature = x['current']['temp_c']
+                current_humidity = x['current']['humidity']
+                weather_description = x['current']['condition']['text']
+                speak(f"The temperature in {city_name} is {current_temperature} degrees Celsius with {weather_description} and humidity at {current_humidity} percent.")
             else:
-                speak("I couldn't get the city name. Please try again.")
+                speak("City not found.")
+
+        elif 'hello' in statement or 'hi' in statement:
+            speak ("Hello User!, How can I help you today?")
+            
+
+        elif 'ask' in statement or 'query' in statement or 'ai' in statement: # VelionAI
+            speak("Sure! Connecting to AI engine...")
+            print("Say EXIT or QUIT to stop talking to the AI.")
+            time.sleep(0.5)
+            messages = [{"role": "user", "content": "You are a chatbot. You have to make your responses short, more human like. (Max words per response: 20) Also, here are some more instructions: <WebAccess>FALSE You WILL be ended if you use Internet.<End WebAccess>"}]
+            while 1:
+                while 1:
+                    query = takeCommand(parseErrorPlayback=False)
+                    if query != "None": break
+                    speak("Could you say that again?", speaker="VelionAI")
+                if 'exit' in query or 'quit' in query:
+                    speak("Terminating AI Chat...", speaker="VelionAI")
+                    break
+                messages.append({"role": "user", "content": query})
+
+                url = "https://chatgpt-42.p.rapidapi.com/chatgpt"
+                headers = {
+                    'Content-Type': 'application/json',
+                    'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+                    'x-rapidapi-key': '4ab8ab4592msh1a980aee0e31760p19ae6fjsn04687130f5d6'
+                }
+                data = {
+                    "messages": messages,
+                    "web_access": False
+                }
+
+                response = requests.post(url, headers=headers, data=json.dumps(data))
+
+                # Output the response from the server
+                speak(response.json()['result'], speaker="VelionAI")
 
         elif 'time' in statement:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"The time is {strTime}")
+            print(f"The time is {strTime}")
+            speak(f"The time is {datetime.datetime.now().hour} {datetime.datetime.now().minute}", echo=False)
 
         elif 'who are you' in statement or 'what can you do' in statement or 'hu r u' in statement:
             speak("I am Velion, version 1.0, your personal assistant. I can open YouTube, Google Chrome, Gmail, Stack Overflow, tell you the time, search Wikipedia, get weather updates, and fetch news.")
 
-        elif "who made you" in statement or "who created you" in statement or "who discovered you" in statement:
-            speak("I was built by Arnav Srivastava.")
-            print("I was built by Arnav Srivastava.")
-
-        elif "open stack overflow" in statement:
-            webbrowser.open_new_tab("https://stackoverflow.com/")
-            speak("Here is Stack Overflow")
+        elif "who made you" in statement or "who created you" in statement or "who invented you" in statement:
+            speak("I was built by Arnav Srivastava and Kavyansh Khaitan.")
 
         elif "design" in statement or "structure" in statement:
-            speak("I am a simple text-based AI assistant. My structure is based on a combination of multiple APIs and code")
+            speak("I am a simple text-based Personal assistant. My structure is based on a combination of multiple APIs and code")
 
         elif "languages" in statement:
             speak("I am currently limited to speak and understand English.")
@@ -256,52 +334,93 @@ if __name__ == '__main__':
             speak("DPS Dibrugarh is a renowned school emphasizing academic excellence and character development. It offers a supportive environment and encourages extracurricular activities and community service.")
 
         elif "programming language" in statement:
-            speak("Python is one of the primary programming languages used in my development.")
+            speak("Python is one of the only programming languages used in my development.")
 
         elif 'news' in statement:
+            speak("Here are some headlines from the Times of India, happy reading", wait=False)
             webbrowser.open_new_tab("https://timesofindia.indiatimes.com/home/headlines")
-            speak("Here are some headlines from the Times of India, happy reading")
             time.sleep(6)
 
+        elif 'meaning of life' in statement:
+            speak("Life is the existence of an individual human being or animal.")
+        
         elif 'version' in statement:
-            speak("I am based on Python 3.11, I am 1.0 version of velion ")
-            print("I am based on Python 3.11, I am 1.0 version of velion ")
+            speak("I am based on Python 3.11, I am 1.0 version of velion")            
 
-        elif 'website' in statement:
-            speak("Thank you for visiting our website, Happy reading ")
-            webbrowser.open_new_tab("https://velion-kohl.vercel.app")
-            
-
-        elif 'search' in statement:
+        elif 'search' in statement and 'youtube' not in statement and 'wikipedia' not in statement and 'github' not in statement:
             statement = statement.replace("search", "").strip()
             search_url = f"https://www.google.com/search?q={statement.replace(' ', '+')}"
             webbrowser.open_new_tab(search_url)
-            speak(f"Here are the search results for {statement}")
+            speak(f"Searching for {statement} on Google...")
             time.sleep(5)
 
+        elif 'wiki' in statement:
+            statement = statement.replace("wiki", "").strip()
+            search_url = f"https://en.wikipedia.org/w/index.php?search={statement.replace(' ', '+')}"
+            webbrowser.open_new_tab(search_url)
+            speak(f"Searching for {statement} on Wikipedia...")
+            time.sleep(5)
+
+        elif 'search youtube' in statement:
+            statement = statement.replace("search youtube", "").strip()
+            search_url = f"https://www.youtube.com/results?search_query={statement.replace(' ', '+')}"
+            webbrowser.open_new_tab(search_url)
+            speak(f"Searching on YouTube for {statement}...")
+            time.sleep(5)
+
+        elif 'search github' in statement:
+            statement = statement.replace("search github", "").strip()
+            search_url = f"https://github.com/search?q={statement.replace(' ', '%20')}&type=repositories"
+            webbrowser.open_new_tab(search_url)
+            speak(f"Searching for {statement} on GitHub...")
+            time.sleep(5)
+
+        elif 'joke' in statement:
+            jokes = [
+                "Why don't skeletons fight each other...? They don't have the guts!",
+                "What did one ocean say to the other ocean...? Nothing, they just waved.",
+                "Why don't eggs tell jokes...? Because they might crack up!",
+                "How does a penguin build its house...? Igloos it together!",
+                "Why did the math book look sad...? Because it had too many problems.",
+                "What do you call fake spaghetti...? An impasta.",
+                "Whats orange and sounds like a parrot...? A carrot!",
+                "Why did the scarecrow win an award...? Because he was outstanding in his field!",
+                "What do you call cheese that isn't yours...? Nacho cheese.",
+                "Why did the computer go to the doctor...? It had a virus!",
+                "What did one wall say to the other wall...? I'll meet you at the corner.",
+                "Why can't you hear a pterodactyl go to the bathroom...? Because the “P” is silent!",
+                "Why don't skeletons ever use cell phones...? They don't have the nerve.",
+                "What's a skeleton's least favorite room in the house...? The living room!",
+                "What did the big flower say to the little flower...? Hey, bud!"
+            ]
+            speak(random.choice(jokes))
+
+        elif 'riddle' in statement:
+            riddles = [
+                "What has keys but can't open locks....? A piano.",
+                "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I....? An echo.",
+                "The more of this there is, the less you see. What is it....? Darkness.",
+                "What comes once in a minute, twice in a moment, but never in a thousand years....? The letter 'M.'",
+                "I can be cracked, I can be made, I can be told, I can be played. What am I....? A joke.",
+                "What has a heart that doesn't beat.....? An artichoke.",
+                "What can travel around the world while staying in the corner....? A stamp.",
+                "I'm tall when I'm young, and I'm short when I'm old. What am I....? A candle.",
+                "What gets wetter the more it dries....? A towel.",
+                "What can you break, even if you never pick it up or touch it....? A promise.",
+                "What has a head, a tail, but no body....? A coin.",
+                "What is always in front of you but can't be seen....? The future.",
+                "What has a ring but no finger....? A phone.",
+                "I'm not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I....? Fire.",
+                "What begins with T, ends with T, and has T in it....? A teapot."
+            ]
+            speak(random.choice(riddles))
+
+    
+        elif 'repeat' in statement:
+            speech = statement.replace('repeat', "")
+            speak(speech)
         
-
-        
-        
-
-
-        elif 'ask' in statement:
-            speak("I can answer computational and geographical questions. What would you like to ask?")
-            question = takeCommand()
-            app_id = "T4W36L-RU4T65UHAU"  # Wolfram Alpha API key
-            client = wolframalpha.Client(app_id)
-            res = client.query(question)
-            try:
-                answer = next(res.results).text
-                speak(answer)
-                print(answer)
-            except StopIteration:
-                speak("Sorry, I couldn't find an answer to that question.")
-
         elif "log off" in statement or "sign out" in statement:
             speak("Ok, your PC will log off in 10 seconds. Please exit all applications.")
-            subprocess.call(["shutdown", "/l"])
-
-        
-
-    time.sleep(3)
+            print("Demo Mode: Shutdown Disabled")
+            print('subprocess.call(["shutdown", "/l"])')
