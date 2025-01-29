@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chatMessages');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
-    const micButton = document.getElementById('micButton');
+    
 
     function addMessage(text, isUser = false) {
         const message = document.createElement('div');
@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 response = "Hey! How can I help you today?";
             } else if (text.toLowerCase().includes('hi')) {
                 response = "Hi! How can I help you today?";
+            } else if (text.toLowerCase().includes('commands')) {
+                response = "You can ask me about the weather, play music, set alarms, or just chat.";
             } else {
                 response = "I'm here to help! You can ask me about the weather, play music, set alarms, or just chat.";
             }
