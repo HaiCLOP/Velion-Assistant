@@ -1,0 +1,160 @@
+### **🚨 Gas Leak Detection with ESP8266, Telegram Alerts, Buzzer & Servo Barrier 🚨**  
+This project will:  
+✅ **Detect smoke/gas** using a **4-pin gas sensor** (e.g., MQ-2, MQ-5, MQ-135).  
+✅ **Trigger a buzzer** when smoke is detected.  
+✅ **Send a Telegram alert** with gas level details.  
+✅ **Activate a servo motor barrier** to block the path when gas is detected.  
+
+---
+
+### **📌 Required Components**
+- **NodeMCU ESP8266 CP2102**  
+- **4-Pin Gas Sensor (MQ-2, MQ-135, etc.)**  
+- **Buzzer**  
+- **Servo Motor (SG90 or MG995)**  
+- **Jumper Wires**  
+
+---
+
+### **📌 Wiring Connections**
+| **Component** | **Pin on NodeMCU** |
+|--------------|------------------|
+| **Gas Sensor VCC** | **3.3V or 5V** |
+| **Gas Sensor GND** | **GND** |
+| **Gas Sensor DO (Digital Output)** | **D6 (GPIO12)** |
+| **Gas Sensor AO (Analog Output, Optional)** | **A0** |
+| **Buzzer +** | **D5 (GPIO14)** |
+| **Buzzer -** | **GND** |
+| **Servo Motor VCC (Red Wire)** | **3.3V** |
+| **Servo Motor GND (Black Wire)** | **GND** |
+| **Servo Motor Signal (Yellow Wire)** | **D4 (GPIO2)** |
+
+---
+
+### **📌 Install Required Libraries**
+1. **Arduino IDE** → **Library Manager** (`Ctrl + Shift + I`)  
+2. Install:  
+   ✅ **Servo** Library (For Servo Motor Control)  
+   ✅ **UniversalTelegramBot**  
+   ✅ **ArduinoJson** (`Version 6.15.2 recommended`)  
+   ✅ **ESP8266WiFi**  
+
+---
+
+### **📌 Upload This Code**
+```cpp
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+#include <Servo.h>
+
+// WiFi Credentials
+const char* ssid = "Your_WiFi_Name";
+const char* password = "Your_WiFi_Password";
+
+// Telegram Bot Token (from BotFather)
+const char* botToken = "7516575616:AAHsxLhSTpkUsMpzA0b-eRjW4FgdzW2UCPs";
+
+// Telegram Chat ID (from @userinfobot)
+const char* chatID = "@haiclop6";
+
+// Create WiFi Client
+WiFiClientSecure client;
+UniversalTelegramBot bot(botToken, client);
+
+// Define Pins
+#define GAS_SENSOR_DO D6  // Digital Output pin for Gas Sensor
+#define GAS_SENSOR_AO A0  // Analog Output pin for Gas Sensor
+#define BUZZER D5         // Buzzer Pin
+#define GAS_THRESHOLD 400 // Adjust as needed
+
+Servo barrierServo;  // Create Servo object
+#define SERVO_PIN D4  // Servo motor control pin
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println("\nWiFi Connected!");
+
+  pinMode(GAS_SENSOR_DO, INPUT);
+  pinMode(BUZZER, OUTPUT);
+
+  barrierServo.attach(SERVO_PIN);
+  barrierServo.write(90);  // Start with barrier in the OPEN position
+
+  client.setInsecure(); // Required for Telegram SSL connection
+}
+
+void sendTelegramAlert(int gasLevel) {
+  String message = "🚨 *ALERT: Gas Leak Detected!* 🔥\n"
+                   "📍 *Location:* Your Home/Factory\n"
+                   "🔴 *Gas Level:* " + String(gasLevel) + "\n"
+                   "⚠ *Barrier Activated!* 🚧 Path Blocked.";
+  bot.sendMessage(chatID, message, "Markdown");
+}
+
+void loop() {
+  int gasDigital = digitalRead(GAS_SENSOR_DO);  // Check smoke presence
+  int gasAnalog = analogRead(GAS_SENSOR_AO);   // Read gas level
+  
+  Serial.print("Gas Level: ");
+  Serial.println(gasAnalog);
+
+  if (gasDigital == HIGH || gasAnalog > GAS_THRESHOLD) {  // Gas detected
+    digitalWrite(BUZZER, HIGH);
+    barrierServo.write(0);  // Lower the barrier
+    sendTelegramAlert(gasAnalog);
+    delay(5000);  // Prevent message spam
+  } else {
+    digitalWrite(BUZZER, LOW);
+    barrierServo.write(90);  // Open the barrier when no gas detected
+  }
+
+  delay(1000);
+}
+```
+
+---
+
+### **📌 How It Works**
+1. The **gas sensor detects smoke/gas** via **DO (Digital Output)**.  
+2. If gas is detected:  
+   ✅ **Buzzer turns ON** 🚨  
+   ✅ **Servo motor lowers the barrier** 🚧  
+   ✅ **Telegram alert is sent** with gas level details.  
+3. If **no gas is detected**, the **barrier moves back up** automatically.  
+
+---
+
+### **📌 Extra Features**
+🔥 **Add an OLED Display** to show gas levels.  
+🔥 **Use IFTTT for SMS/WhatsApp Alerts** instead of Telegram.  
+🔥 **Control the barrier manually via Telegram (Type "OPEN" or "CLOSE")**.  
+
+---
+
+🚀 **Let me know if you need modifications!** 🚀
+
+
+STEP 1: Connect Water Level Detector
+
+
+Using 3 of the Female-to-Male Dupont Wires, connect the Water Level Detector. The negative leg (-) goes to the ground on the Arduino Uno. The positive leg (+) goes to the 5V power on the Arduino Uno. The Analog Signal (S) goes to the analog in on the Arduino Uno, specifically in port A0.
+
+STEP 2: Connect Buzzer
+
+
+Using the two remaining Female-to-Male Dupont Wires, connect the Passive Buzzer. The negative leg (-) goes to the ground on the Arduino Uno. The positive leg (+) goes to port 9 on the Arduino Uno.
+
+STEP 3: Finishing Touches
+
+
+Load the sketch (below in multiple formats) into Arduino Create and connect the Arduino Uno.
+
+https://app.arduino.cc/sketches/6687257a-940b-4726-baff-d8230c00e40a?view-mode=preview 
