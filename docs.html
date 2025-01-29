@@ -3,105 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velion Documentation</title>
+    <title>Velion Help - Voice-Activated Assistant</title>
     <style>
         :root {
-            --primary-color: #0086af;
-            --secondary-color: #7b00bd;
-            --background-color: #FFFFFF;
-            --text-color: #333333;
-            --code-background: #F0F0F0;
-            --border-color: #E0E0E0;
-        }
-
-        .dark-theme {
             --primary-color: #9F7AEA;
             --secondary-color: #63B3ED;
             --background-color: #1A202C;
             --text-color: #E2E8F0;
             --code-background: #2D3748;
             --border-color: #4A5568;
+            --glass-background: rgba(26, 32, 44, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
         }
-
+        .dark-theme {
+            --primary-color: #0086af;
+            --secondary-color: #7b00bd;
+            --background-color: #f0f4f8;
+            --text-color: #333333;
+            --code-background: #e0e5eb;
+            --border-color: #d1d9e6;
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background-color: var(--background-color);
+            background: linear-gradient(135deg, var(--background-color), var(--primary-color));
             margin: 0;
             padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
+            padding-top: 80px; /* Added to accommodate fixed header */
         }
-
         header {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--glass-background);
+            backdrop-filter: blur(2.6px);
+            color: var(--text-color);
             text-align: center;
             padding: 1rem;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            box-shadow: var(--glass-shadow);
         }
-
         header h1 {
-            margin-bottom: 0.5rem;
+            margin: 0;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
-
+        header p {
+            margin: 0.5rem 0 0;
+            font-size: 1rem;
+        }
         .container {
             display: flex;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
-
         nav {
             width: 250px;
             position: sticky;
-            top: 5rem;
-            height: calc(100vh - 7rem);
+            top: 90px; /* Adjusted to accommodate fixed header */
+            height: calc(100vh - 100px); /* Adjusted to accommodate fixed header */
             overflow-y: auto;
-            padding-right: 1rem;
-            border-right: 1px solid var(--border-color);
+            padding: 1rem;
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: var(--glass-shadow);
         }
-
         nav ul {
             list-style-type: none;
             padding: 0;
         }
-
         nav ul li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
-
         nav ul li a {
-            color: var(--primary-color);
+            color: var(--text-color);
             text-decoration: none;
             transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
         }
-
         nav ul li a:hover, nav ul li a.active {
             color: var(--secondary-color);
         }
-
+        nav ul li a::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        nav ul li:nth-child(1) a::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230086af"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'); }
+        nav ul li:nth-child(2) a::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230086af"><path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-11v2h1a3 3 0 0 1 0 6h-1v1a1 1 0 0 1-2 0v-1H8a1 1 0 0 1 0-2h3v-2h-1a3 3 0 0 1 0-6h1V6a1 1 0 0 1 2 0v1h3a1 1 0 0 1 0 2h-3z"/></svg>'); }
+        nav ul li:nth-child(3) a::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230086af"><path d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zm-1-2V4H5v16h14zM7 6h4v4H7V6zm0 6h10v2H7v-2zm0 4h10v2H7v-2zm6-9h4v2h-4V7z"/></svg>'); }
+        nav ul li:nth-child(4) a::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230086af"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg>'); }
+        nav ul li:nth-child(5) a::before { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230086af"><path d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zm-1-2V4H5v16h14zM7 6h10v2H7V6zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/></svg>'); }
         main {
             flex: 1;
             padding-left: 2rem;
         }
-
         section {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
             margin-bottom: 2rem;
+            box-shadow: var(--glass-shadow);
         }
-
         h2 {
             color: var(--primary-color);
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
+            font-size: 1.8rem;
         }
-
         h3 {
             color: var(--secondary-color);
+            font-size: 1.4rem;
         }
-
         pre {
             background-color: var(--code-background);
             border: 1px solid var(--border-color);
@@ -109,28 +136,28 @@
             padding: 1rem;
             overflow-x: auto;
         }
-
         code {
             font-family: 'Courier New', Courier, monospace;
         }
 
         footer {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
             text-align: center;
             padding: 1rem;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            position: relative; /* Ensure it stays in place */
+            box-shadow: var(--glass-shadow);
         }
 
-        a.return-link {
-            color: rgb(255, 255, 255);
+        footer a {
+            color: var(--secondary-color);
             text-decoration: none;
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary-color);
         }
 
         #theme-toggle {
@@ -144,27 +171,21 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            z-index: 1001;
         }
-
         #theme-toggle:hover {
             background-color: var(--secondary-color);
         }
-
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
-
             nav {
                 width: 100%;
                 position: static;
                 height: auto;
                 margin-bottom: 2rem;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                padding-bottom: 1rem;
             }
-
             main {
                 padding-left: 0;
             }
@@ -173,7 +194,7 @@
 </head>
 <body>
     <header>
-        <h1>Velion Documentation</h1>
+        <h1>Velion Help</h1>
         <p>Voice-Activated Personal Assistant</p>
     </header>
 
@@ -185,14 +206,8 @@
             <ul>
                 <li><a href="#introduction">Introduction</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#technical-specifications">Technical Specifications</a></li>
-                <li><a href="#requirements">Requirements</a></li>
-                <li><a href="#installation">Installation</a></li>
                 <li><a href="#usage">Usage</a></li>
-                <li><a href="#error-handling">Error Handling</a></li>
-                <li><a href="#extending-velion">Extending Velion</a></li>
-                <li><a href="#development-and-contribution">Development and Contribution</a></li>
-                <li><a href="#user-feedback-and-support">User Feedback and Support</a></li>
+                <li><a href="#installation">Installation</a></li>
                 <li><a href="#conclusion">Conclusion</a></li>
             </ul>
         </nav>
@@ -206,99 +221,74 @@
 
             <section id="features">
                 <h2>Features</h2>
-                <h3>Initialization</h3>
-                <p>The initialization process is critical for ensuring that Velion is ready to assist users immediately upon launch. During this stage, key components are set up, including the text-to-speech engine, voice recognition system, and any necessary configuration settings.</p>
-                <pre><code>def __init__(self):
-    # Set up text-to-speech engine
-    self.engine = pyttsx3.init()
-    self.engine.setProperty('rate', 150)
-    self.engine.setProperty('volume', 0.8)
-    
-    # Initialize other components
-    self.recognizer = sr.Recognizer()
-    self.spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(...))
-    # ... other initializations</code></pre>
-
+                
                 <h3>Greeting Function</h3>
                 <p>The greeting function creates a welcoming atmosphere for users, enhancing their overall experience. By providing personalized greetings based on the time of day, Velion fosters a sense of connection and engagement.</p>
-                <pre><code>def wishMe(self):
-    hour = datetime.datetime.now().hour
-    if 0 <= hour < 12:
-        self.speak("Good morning!")
-    elif 12 <= hour < 18:
-        self.speak("Good afternoon!")
-    else:
-        self.speak("Good evening!")
-    self.speak("I am Velion, your personal assistant. How can I help you today?")</code></pre>
-
+                
                 <h3>Voice Recognition</h3>
                 <p>At the heart of Velion's functionality lies its voice recognition capabilities. This feature allows users to interact with the assistant using natural language, making it more intuitive and accessible.</p>
-                <pre><code>def takeCommand(self):
-    with sr.Microphone() as source:
-        print("Listening...")
-        self.recognizer.pause_threshold = 1
-        audio = self.recognizer.listen(source)
-
-    try:
-        print("Recognizing...")
-        query = self.recognizer.recognize_google(audio, language='en-us')
-        print(f"User said: {query}\n")
-    except Exception as e:
-        print("Sorry, I didn't catch that. Could you please repeat?")
-        return "None"
-    return query</code></pre>
-
+                
                 <h3>Currency Conversion</h3>
                 <p>Velion includes a currency conversion feature that allows users to convert amounts between different currencies using up-to-date exchange rates.</p>
-                <pre><code>def convert_currency(self, command):
-    # Extract amount and currencies from command
-    # Fetch current exchange rate
-    # Perform conversion
-    # Return result</code></pre>
+                <p>You can ask Velion to convert from any currency to any other.</p>
+                <p>For example, <i>"Convert 50 USD to EUR"</i> or <i>"Convert 2000 rupees to dinars"</i></p>
+                
 
                 <h3>Music Playback</h3>
                 <p>By integrating with Spotify, Velion allows users to search for and play their favorite tracks effortlessly.</p>
-                <pre><code>def play_music_on_spotify(self, command):
-    # Extract song or artist name from command
-    # Search Spotify
-    # Play the track
-    self.speak(f"Playing {track_name} on Spotify.")</code></pre>
+                <p>For example, you can ask Velion to <i>"Play X song"</i></p>
+
 
                 <h3>Web Navigation</h3>
                 <p>Velion allows users to open specific websites using voice commands, streamlining the process of accessing information and enhancing productivity.</p>
-                <pre><code>def open_website(self, command):
-    # Extract website name from command
-    # Open website in default browser
-    webbrowser.open(url)
-    self.speak(f"Opening {website_name}")</code></pre>
+                <p>For example, you can ask Velion to <i>Open YouTube</i>, <i>Open Google</i> or other websites.</p>
 
+
+                <h3>Searching on the Internet</h3>
+                <p>Velion allows users to search on a few websites using voice commands, making it easier to find information on the internet and enhance productivity and creativity.</p>
+                <p>For example, you can ask Velion to search on Google, YouTube, Wikipedia, GitHub</p>
                 
+                <p><ul>
+                    <b>Google: </b><i>"Search, Python"</i><br></li>
+                    <b>YouTube: </b><i>"Search YouTube, Harry Potter</i><br></li>
+                    <b>Wikipedia: </b><i>"Python Wiki" or "Search Wikipedia, Python"</i><br>
+                    <b>GitHub: </b><i>"Search GitHub, Velion"</i>
+                </ul></p>
+
+                <h3>Jokes, Riddles, Book Recommendations, and Motivation</h3>
+                <p>Velion allows users to get a random joke, riddle, book recommendation or motivation. This feature is especially useful when you are bored, or to increase productivity.</p>
+                <ul>
+                    <b>Jokes: </b><i>"Tell me a joke"</i><br>
+                    <b>Riddles: </b><i>"Tell me a riddle"</i><br>
+                    <b>Book Recommendations: </b><i>"Recommend me a book"</i><br>
+                    <b>Motivation: </b><i>"Motivational Quotes"</i>
+                </ul>
+
+                <h3>Set a Timer</h3>
+                <p>Velion allows users to set a timer to allow users to do a set goal in a specific amount of time. This can be used to boost productivity by a lot.</p>
+                <p>To initiate the timer process, you can say something in your command that includes the keyword <i>timer</i>.</p>
+                <ul>
+                    <i>Set a timer</i> <b>></b> <i>For 5 minutes and 43 seconds</i><br>
+                    <i>Start a timer</i> <b>></b> <i>For 23 seconds</i><br>
+                    <i>timer</i> <b>></b> <i>For a minute and a second</i><br>
+                </ul>
+                
+                <h3>VelionAI</h3>
+                <p>Velion allows users to talk to VelionAI which support Mistral AI to save time and increase accuracy, productivity and creativity.</p>
+                <p>To start talking to VelionAI, you can say something in your command that includes the keyword <i>ask</i> or <i>query</i>.</p>
+                <p>To stop talking to VelionAI, you can say <i>Exit</i> or <i>Quit</i>.</p>
             </section>
 
-            <section id="technical-specifications">
-                <h2>Technical Specifications</h2>
+            <section id="usage">
+                <h2>Usage</h2>
+                <p>Interacting with Velion is designed to be intuitive and user-friendly. Here are some example commands:</p>
                 <ul>
-                    <li><strong>Programming Language:</strong> Python (version 3.6 or higher)</li>
-                    <li><strong>Voice Recognition:</strong> SpeechRecognition library</li>
-                    <li><strong>Text-to-Speech:</strong> pyttsx3 library</li>
-                    <li><strong>External APIs:</strong> ExchangeRate API for currency conversion, Spotify API for music playback</li>
-                    <li><strong>Data Storage:</strong> Local storage or database for user preferences</li>
-                    <li><strong>System Requirements:</strong> Python 3.6+, internet access for API calls</li>
+                    <li><strong>Currency Conversion:</strong> "Convert 100 USD to EUR"</li>
+                    <li><strong>Music Playback:</strong> "Play Bohemian Rhapsody on Spotify"</li>
+                    <li><strong>Web Navigation:</strong> "Open YouTube"</li>
+                    
                 </ul>
-            </section>
-
-            <section id="requirements">
-                <h2>Requirements</h2>
-                <p>To run Velion successfully, ensure the following libraries and dependencies are installed:</p>
-                <ul>
-                    <li><code>pyttsx3</code>: For text-to-speech functionality</li>
-                    <li><code>SpeechRecognition</code>: For processing voice commands</li>
-                    <li><code>requests</code>: For making HTTP requests to APIs</li>
-                    <li><code>spotipy</code>: For interacting with the Spotify Web API</li>
-                    <li><code>pyaudio</code>: For microphone input (may be required on some systems)</li>
-                </ul>
-                <p>You can install these dependencies using pip:</p>
-                <pre><code>pip install pyttsx3 SpeechRecognition requests spotipy pyaudio</code></pre>
+                <p>To start using Velion, simply run the main script and speak your command after the greeting.</p>
             </section>
 
             <section id="installation">
@@ -319,125 +309,6 @@ cd velion</code></pre>
                 </ol>
             </section>
 
-            <section id="usage">
-                <h2>Usage</h2>
-                <p>Interacting with Velion is designed to be intuitive and user-friendly. Here are some example commands:</p>
-                <ul>
-                    <li><strong>Currency Conversion:</strong> "Convert 100 USD to EUR"</li>
-                    <li><strong>Music Playback:</strong> "Play Bohemian Rhapsody on Spotify"</li>
-                    <li><strong>Web Navigation:</strong> "Open YouTube"</li>
-                    
-                </ul>
-                <p>To start using Velion, simply run the main script and speak your command after the greeting.</p>
-            </section>
-
-            <section id="error-handling">
-                <h2>Error Handling</h2>
-                <p>Velion incorporates error handling mechanisms to ensure a smooth user experience:</p>
-                <ul>
-                    <li><strong>Invalid Voice Commands:</strong> "I'm sorry, I didn't catch that. Could you please repeat?"</li>
-                    <li><strong>Currency Conversion Issues:</strong> "I couldn't process that currency conversion. Please check your request."</li>
-                    <li><strong>Music Search Issues:</strong> "I couldn't find that song on Spotify. Please try another."</li>
-                    <li><strong>Website Opening Errors:</strong> "I'm having trouble opening that website. Could you try a different one?"</li>
-                </ul>
-                <p>These error messages are designed to guide users and encourage them to rephrase or try different commands.</p>
-            </section>
-
-            <section id="extending-velion">
-                <h2>Extending Velion</h2>
-                <p>Velion can be extended with additional features to enhance its capabilities:</p>
-                <ul>
-                    <li><strong>Task Management:</strong> Implement to-do lists and reminders</li>
-                    <li><strong>Calendar Integration:</strong> Connect with services like Google Calendar</li>
-                    <li><strong>Weather Updates:</strong> Provide real-time weather information</li>
-                    <li><strong>Smart Home Control:</strong> Integrate with smart home devices</li>
-                    <li><strong>Multi-Language Support:</strong> Add support for multiple languages</li>
-                    <li><strong>Natural Language Processing:</strong> Enhance command understanding</li>
-                </ul>
-                <p>To add a new feature, create a new module and integrate it into the main Velion class:</p>
-                <pre><code>class WeatherModule:
-    def __init__(self, api_key):
-        self.api_key = api_key
-
-    def get_weather(self, location):
-        # Implement weather fetching logic here
-        pass
-
-class Velion:
-    def __init__(self):
-        # ... existing initialization ...
-        self.weather_module = WeatherModule(API_KEY)
-
-    def handle_weather_request(self, command):
-        location = extract_location(command)
-        weather = self.weather_module.get_weather(location)
-        self.speak(f"The weather in {location} is {weather}")
-</code></pre>
-            </section>
-
-            <section id="development-and-contribution">
-                <h2>Development and Contribution</h2>
-                <p>We welcome contributions to Velion! Here's how you can contribute:</p>
-                <ol>
-                    <li><strong>Fork the Repository:</strong> Create your own copy of the Velion repository on GitHub.</li>
-                    <li><strong>Create a Branch:</strong> Make a new branch for your feature or bug fix.</li>
-                    <li><strong>Implement Changes:</strong> Add your new feature or fix a bug. Remember to follow the existing code style and add appropriate comments.</li>
-                    <li><strong>Write Tests:</strong> Add tests for your new feature to ensure it works as expected.</li>
-                    <li><strong>Update Documentation:</strong> If you've added a new feature, update the documentation to reflect the changes.</li>
-                    <li><strong>Submit a Pull Request:</strong> Open a pull request with a clear description of your changes.</li>
-                </ol>
-                <p>Here's an example of how you might contribute a new feature:</p>
-                <pre><code># In a new file: reminder_module.py
-from datetime import datetime, timedelta
-
-class ReminderModule:
-    def __init__(self):
-        self.reminders = []
-
-    def add_reminder(self, task, time):
-        self.reminders.append((task, time))
-        return f"Reminder set for {task} at {time}"
-
-    def check_reminders(self):
-        now = datetime.now()
-        due_reminders = [r for r in self.reminders if r[1] <= now]
-        for reminder in due_reminders:
-            print(f"Reminder: {reminder[0]}")
-        self.reminders = [r for r in self.reminders if r[1] > now]
-
-# In velion.py
-from reminder_module import ReminderModule
-
-class Velion:
-    def __init__(self):
-        # ... existing initialization ...
-        self.reminder_module = ReminderModule()
-
-    def handle_reminder_request(self, command):
-        task, time = extract_reminder_details(command)
-        result = self.reminder_module.add_reminder(task, time)
-        self.speak(result)
-
-    def run(self):
-        while True:
-            self.reminder_module.check_reminders()
-            command = self.take_command()
-            self.process_command(command)</code></pre>
-            </section>
-
-            <section id="user-feedback-and-support">
-                <h2>User Feedback and Support</h2>
-                <p>We value user feedback and are committed to providing excellent support:</p>
-                <ul>
-                    <li><strong>Feedback Form:</strong> Use our online feedback form to share your thoughts and suggestions.</li>
-                    <li><strong>Community Forum:</strong> Join our community forum to discuss Velion with other users and developers.</li>
-                    <li><strong>Bug Reports:</strong> If you encounter any issues, please report them on our GitHub issue tracker.</li>
-                    <li><strong>Feature Requests:</strong> Have an idea for a new feature? Let us know through our feature request form.</li>
-                    <li><strong>Email Support:</strong> For any other inquiries, reach out to our support team at support@velion.com.</li>
-                </ul>
-                <p>We aim to respond to all inquiries within 48 hours. Your feedback helps us improve Velion and provide a better experience for all users.</p>
-            </section>
-
             <section id="conclusion">
                 <h2>Conclusion</h2>
                 <p>Velion represents the future of personal digital assistance, combining advanced voice recognition technology with a user-friendly interface. By offering a wide range of features from currency conversion to music playback, and the ability to extend its functionality, Velion adapts to the unique needs of each user.</p>
@@ -448,33 +319,38 @@ class Velion:
     </div>
 
     <footer>
-        <p>&copy; 2024 Velion. All rights reserved.<a href="index.html">Return To Website</a></p>
+        <p>&copy; 2024 Velion. All rights reserved. <a href="index.html">Return To Website</a></p>
     </footer>
+    
 
     <script>
-        // JavaScript for smooth scrolling, active link highlighting, and theme toggling
         document.addEventListener('DOMContentLoaded', (event) => {
             const tocLinks = document.querySelectorAll('#toc a');
             const sections = document.querySelectorAll('main section');
             const themeToggle = document.getElementById('theme-toggle');
 
-            // Smooth scrolling
             tocLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const targetId = link.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    const headerOffset = 90; // Adjusted to account for fixed header
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
                 });
             });
 
-            // Highlight current section
             window.addEventListener('scroll', () => {
                 let currentSectionId = '';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= sectionTop - 50) {
+                    if (pageYOffset >= sectionTop - 100) { // Adjusted to account for fixed header
                         currentSectionId = section.getAttribute('id');
                     }
                 });
@@ -487,13 +363,11 @@ class Velion:
                 });
             });
 
-            // Theme toggling
             themeToggle.addEventListener('click', () => {
                 document.body.classList.toggle('dark-theme');
-                themeToggle.textContent = document.body.classList.contains('dark-theme') ? 'Light Theme' : 'Dark Theme';
+                themeToggle.textContent = document.body.classList.contains('dark-theme') ? 'Dark Theme' : 'Light Theme';
             });
         });
     </script>
 </body>
 </html>
-
