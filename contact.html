@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velion - Contact Us</title>
+    <style>
+        :root {
+            --primary-color: #9F7AEA;
+            --secondary-color: #63B3ED;
+            --background-color: #1A202C;
+            --text-color: #E2E8F0;
+            --code-background: #2D3748;
+            --border-color: #4A5568;
+            --glass-background: rgba(26, 32, 44, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .dark-theme {
+            --primary-color: #0086af;
+            --secondary-color: #7b00bd;
+            --background-color: #f0f4f8;
+            --text-color: #333333;
+            --code-background: #e0e5eb;
+            --border-color: #d1d9e6;
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--background-color), var(--primary-color));
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+            padding-top: 80px;
+        }
+        header {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(2.6px);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: var(--glass-shadow);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        main {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--glass-shadow);
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+        }
+        footer {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            box-shadow: var(--glass-shadow);
+        }
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--primary-color);
+        }
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 1001;
+        }
+        #theme-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+        form {
+            display: grid;
+            gap: 1rem;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--glass-background);
+            color: var(--text-color);
+            border-radius: 4px;
+        }
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Contact Velion</h1>
+    </header>
+
+    <button id="theme-toggle">Toggle Theme</button>
+
+    <div class="container">
+        <main>
+            <section>
+                <h2>Get in Touch</h2>
+                <p>We'd love to hear from you! Whether you have a question about Velion, need support, or want to provide feedback, please don't hesitate to reach out.</p>
+
+                <h3>Contact Information</h3>
+                <p>Email: haiclop6@gmail.com</p>
+                <p>Phone: +91 6001237920</p>
+                
+
+                <h3>Send Us a Message</h3>
+                <form id="contact-form">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div>
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div>
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Velion. All rights reserved. <a href="index.html">Return To Website</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const contactForm = document.getElementById('contact-form');
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                themeToggle.textContent = document.body.classList.contains('dark-theme') ? 'Light Theme' : 'Dark Theme';
+            });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+            
+                const name = encodeURIComponent(document.getElementById('name').value);
+                const email = encodeURIComponent(document.getElementById('email').value);
+                const subject = encodeURIComponent(document.getElementById('subject').value);
+                const message = encodeURIComponent(document.getElementById('message').value);
+
+                const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=haiclop6@gmail.com&su=${subject}&body=Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
+
+                const gmailWindow = window.open(mailtoLink, '_blank');
+
+                if (!gmailWindow) {
+                    alert('It seems your browser blocked the popup. Please ensure popups are allowed for this site, or use the following link to compose your email:');
+                    alert(mailtoLink);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
