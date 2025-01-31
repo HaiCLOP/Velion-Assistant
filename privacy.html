@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velion - Privacy Policy</title>
+    <style>
+        :root {
+            --primary-color: #9F7AEA;
+            --secondary-color: #63B3ED;
+            --background-color: #1A202C;
+            --text-color: #E2E8F0;
+            --code-background: #2D3748;
+            --border-color: #4A5568;
+            --glass-background: rgba(26, 32, 44, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .dark-theme {
+            --primary-color: #0086af;
+            --secondary-color: #7b00bd;
+            --background-color: #f0f4f8;
+            --text-color: #333333;
+            --code-background: #e0e5eb;
+            --border-color: #d1d9e6;
+            --glass-background: rgba(255, 255, 255, 0.7);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--background-color), var(--primary-color));
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+            padding-top: 80px;
+        }
+        header {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(2.6px);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: var(--glass-shadow);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        main {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--glass-shadow);
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+        }
+        footer {
+            background-color: var(--glass-background);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            box-shadow: var(--glass-shadow);
+        }
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--primary-color);
+        }
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 1001;
+        }
+        #theme-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Velion Privacy Policy</h1>
+    </header>
+
+    <button id="theme-toggle">Toggle Theme</button>
+
+    <div class="container">
+        <main>
+            <section>
+                <h2>Privacy Policy</h2>
+                <p>Last updated: 31-01-2025</p>
+                <p>Velion we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Velion voice-activated personal assistant.</p>
+
+                <h3>Information We Collect</h3>
+                <p>We collect information that you provide directly to us, such as:</p>
+                <ul>
+                    <li>Voice data when you interact with Velion</li>
+                    <li>Chat Logs</li>
+                    <li>Usage data and interaction logs</li>
+                </ul>
+
+                <h3>How We Use Your Information</h3>
+                <p>We use the information we collect to:</p>
+                <ul>
+                    <li>Provide and improve Velion's functionality</li>
+                    <li>Personalize your experience</li>
+                    <li>Analyze usage patterns and trends</li>
+                    <li>Communicate with you about updates and new features</li>
+                </ul>
+
+                <h3>Data Security</h3>
+                <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized or unlawful processing, accidental loss, destruction, or damage.</p>
+
+                <h3>Third-Party Services</h3>
+                <p>Velion may integrate with third-party services (e.g., Spotify). Your use of these services through Velion is subject to their respective privacy policies.</p>
+
+                <h3>Your Rights</h3>
+                <p>Depending on your location, you may have certain rights regarding your personal information, such as the right to access, correct, or delete your data.</p>
+
+                <h3>Changes to This Privacy Policy</h3>
+                <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+
+                <h3>Contact Us</h3>
+                <p>If you have any questions about this Privacy Policy, please contact us at [contact email].</p>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Velion. All rights reserved. <a href="index.html">Return To Website</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const themeToggle = document.getElementById('theme-toggle');
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                themeToggle.textContent = document.body.classList.contains('dark-theme') ? 'Light Theme' : 'Dark Theme';
+            });
+        });
+    </script>
+</body>
+</html>
