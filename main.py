@@ -4,6 +4,7 @@ import datetime
 import webbrowser
 import time
 import requests
+from googletrans import Translator
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from colorama import Fore, Back, Style
@@ -356,15 +357,246 @@ if __name__ == '__main__':
             else:
                 speak("City not found.")
 
-        elif 'hello' in statement or 'hi' in statement:
+        elif 'hello' in statement or 'hi' in statement or 'hey' in statement or 'hola' in statement or 'namaste' in statement or 'bonjour' in statement:
             speak ("Hello User!, How can I help you today?")
+        
+        elif "translate" in statement:
+            translator = Translator()
             
+            speak("Please say the text you want to translate.")
+            while True:
+                text_to_translate = takeCommand(parseErrorPlayback=False)
+                if text_to_translate != "None": 
+                    break
+                speak("Could you repeat that please?")
+            
+            speak("Which language do you want to translate to?")
+            while True:
+                target_language = takeCommand(parseErrorPlayback=False)
+                if target_language != "None": 
+                    break
+                speak("Could you repeat that please?")
 
-        elif 'ask' in statement or 'query' in statement or 'chatbot' in statement: # VelionAI
+            try:
+                language_codes = {
+                    "afrikaans": "af", "albanian": "sq", "arabic": "ar", "armenian": "hy",
+                    "azerbaijani": "az", "basque": "eu", "belarusian": "be", "bengali": "bn",
+                    "bosnian": "bs", "bulgarian": "bg", "catalan": "ca", "cebuano": "ceb",
+                    "chinese": "zh-cn", "croatian": "hr", "czech": "cs", "danish": "da",
+                    "dutch": "nl", "english": "en", "esperanto": "eo", "estonian": "et",
+                    "finnish": "fi", "french": "fr", "galician": "gl", "georgian": "ka",
+                    "german": "de", "greek": "el", "gujarati": "gu", "haitian creole": "ht",
+                    "hebrew": "iw", "hindi": "hi", "hungarian": "hu", "icelandic": "is",
+                    "indonesian": "id", "irish": "ga", "italian": "it", "japanese": "ja",
+                    "javanese": "jw", "kannada": "kn", "kazakh": "kk", "khmer": "km",
+                    "korean": "ko", "kurdish (kurmanji)": "ku", "kyrgyz": "ky", "lao": "lo",
+                    "latin": "la", "latvian": "lv", "lithuanian": "lt", "luxembourgish": "lb",
+                    "macedonian": "mk", "malagasy": "mg", "malay": "ms", "malayalam": "ml",
+                    "maltese": "mt", "marathi": "mr", "mongolian": "mn", "myanmar (burmese)": "my",
+                    "nepali": "ne", "norwegian": "no", "persian": "fa", "polish": "pl",
+                    "portuguese": "pt", "punjabi": "pa", "romanian": "ro", "russian": "ru",
+                    "samoan": "sm", "scottish gaelic": "gd", "serbian": "sr", "sesotho": "st",
+                    "shona": "sn", "sindhi": "sd", "sinhala": "si", "slovak": "sk",
+                    "slovenian": "sl", "somali": "so", "spanish": "es", "sundanese": "su",
+                    "swahili": "sw", "swedish": "sv", "tagalog": "tl", "tajik": "tg",
+                    "tamil": "ta", "tatar": "tt", "telugu": "te", "thai": "th",
+                    "turkish": "tr", "turkmen": "tk", "ukrainian": "uk", "urdu": "ur",
+                    "uzbek": "uz", "vietnamese": "vi", "welsh": "cy", "xhosa": "xh",
+                    "yiddish": "yi", "yoruba": "yo", "zulu": "zu"
+                }
+                
+                if target_language.lower() in language_codes:
+                    target_lang_code = language_codes[target_language.lower()]
+                    translated_text = translator.translate(text_to_translate, dest=target_lang_code).text
+                    speak(f"The translated text in {target_language} is: {translated_text}")
+                else:
+                    speak("Sorry, I couldn't recognize that language.")
+            except Exception as e:
+                speak("I encountered an error while translating.")
+                print(e)
+
+
+
+        trivia_questions = [
+            {"question": "What is the capital of France?", "answer": "Paris"},
+            {"question": "What is the largest planet in our solar system?", "answer": "Jupiter"},
+            {"question": "Who wrote 'Romeo and Juliet'?", "answer": "William Shakespeare"},
+            {"question": "What is the chemical symbol for gold?", "answer": "Au"},
+            {"question": "Which planet is known as the Red Planet?", "answer": "Mars"},
+            {"question": "How many continents are there?", "answer": "Seven"},
+            {"question": "What is the smallest country in the world?", "answer": "Vatican City"},
+            {"question": "What year did the Titanic sink?", "answer": "1912"},
+            {"question": "What is the hardest natural substance on Earth?", "answer": "Diamond"},
+            {"question": "Who painted the Mona Lisa?", "answer": "Leonardo da Vinci"},
+            {"question": "What is the longest river in the world?", "answer": "Nile"},
+            {"question": "Who discovered penicillin?", "answer": "Alexander Fleming"},
+            {"question": "What is the largest mammal in the world?", "answer": "Blue Whale"},
+            {"question": "What is the capital of Japan?", "answer": "Tokyo"},
+            {"question": "What is the main ingredient in sushi?", "answer": "Rice"},
+            {"question": "How many players are there in a soccer team?", "answer": "Eleven"},
+            {"question": "Which element has the atomic number 1?", "answer": "Hydrogen"},
+            {"question": "What is the capital of Australia?", "answer": "Canberra"},
+            {"question": "What is the tallest mountain in the world?", "answer": "Mount Everest"},
+            {"question": "Who invented the telephone?", "answer": "Alexander Graham Bell"},
+            {"question": "What is the currency of the United States?", "answer": "Dollar"},
+            {"question": "What is the square root of 100?", "answer": "10"},
+            {"question": "What is the hardest rock?", "answer": "Diamond"},
+            {"question": "Which planet is known for its rings?", "answer": "Saturn"},
+            {"question": "What is the main language spoken in Brazil?", "answer": "Portuguese"},
+            {"question": "Who was the first President of the United States?", "answer": "George Washington"},
+            {"question": "What is the capital of Canada?", "answer": "Ottawa"},
+            {"question": "What is the largest desert in the world?", "answer": "Sahara"},
+            {"question": "What is the freezing point of water?", "answer": "0 degrees Celsius"},
+            {"question": "What is the largest bone in the human body?", "answer": "Femur"},
+            {"question": "Who wrote the 'Iliad'?", "answer": "Homer"},
+            {"question": "What is the chemical formula for table salt?", "answer": "NaCl"},
+            {"question": "What is the most widely spoken language in the world?", "answer": "Mandarin Chinese"},
+            {"question": "Which animal is known as the 'King of the Jungle'?", "answer": "Lion"},
+            {"question": "What is the capital of Italy?", "answer": "Rome"},
+            {"question": "What is the speed of light?", "answer": "299,792 kilometers per second"},
+            {"question": "Which gas do plants absorb from the atmosphere?", "answer": "Carbon Dioxide"},
+            {"question": "What is the largest organ in the human body?", "answer": "Skin"},
+            {"question": "Who painted the ceiling of the Sistine Chapel?", "answer": "Michelangelo"},
+            {"question": "What is the capital of Germany?", "answer": "Berlin"},
+            {"question": "What is the most populated country in the world?", "answer": "China"},
+            {"question": "What is the currency of Japan?", "answer": "Yen"},
+            {"question": "Which planet is closest to the Sun?", "answer": "Mercury"},
+            {"question": "What is the most abundant gas in the Earth's atmosphere?", "answer": "Nitrogen"},
+            {"question": "Who is known as the 'Father of Computers'?", "answer": "Charles Babbage"},
+            {"question": "What is the main ingredient in chocolate?", "answer": "Cocoa"},
+            {"question": "What is the tallest building in the world?", "answer": "Burj Khalifa"},
+            {"question": "Who discovered gravity?", "answer": "Isaac Newton"},
+            {"question": "What is the capital of Spain?", "answer": "Madrid"},
+            {"question": "What is the fastest land animal?", "answer": "Cheetah"},
+            {"question": "Which ocean is the largest?", "answer": "Pacific Ocean"},
+            {"question": "What is the chemical symbol for silver?", "answer": "Ag"},
+            {"question": "How many teeth does an adult human have?", "answer": "32"},
+            {"question": "What is the capital of India?", "answer": "New Delhi"},
+            {"question": "Which gas is most commonly used in balloons?", "answer": "Helium"},
+            {"question": "What is the process of converting a liquid into a gas called?", "answer": "Evaporation"},
+            {"question": "What is the hardest natural mineral?", "answer": "Diamond"},
+            {"question": "What is the most widely used programming language?", "answer": "Python"},
+            {"question": "What is the capital of Egypt?", "answer": "Cairo"},
+            {"question": "Which animal is known for its ability to change color?", "answer": "Chameleon"},
+            {"question": "What is the longest bone in the human body?", "answer": "Femur"},
+            {"question": "What is the main gas in the air we breathe?", "answer": "Nitrogen"},
+            {"question": "Who was the first woman to fly solo across the Atlantic?", "answer": "Amelia Earhart"},
+            {"question": "What is the primary function of red blood cells?", "answer": "Transport oxygen"},
+            {"question": "What is the capital of Russia?", "answer": "Moscow"},
+            {"question": "What is the main ingredient in a smoothie?", "answer": "Fruit"},
+            {"question": "Who wrote the 'Divine Comedy'?", "answer": "Dante Alighieri"},
+            {"question": "What is the chemical formula for water?", "answer": "H2O"},
+            {"question": "Which planet has the most moons?", "answer": "Jupiter"},
+            {"question": "What is the capital of South Africa?", "answer": "Pretoria"},
+            {"question": "What is the primary source of energy for the Earth?", "answer": "Sun"},
+            {"question": "What is the largest land animal?", "answer": "Elephant"},
+            {"question": "What is the capital of the United Kingdom?", "answer": "London"},
+            {"question": "What is the largest continent?", "answer": "Asia"},
+            {"question": "Who invented the light bulb?", "answer": "Thomas Edison"},
+            {"question": "What is the main ingredient in hummus?", "answer": "Chickpeas"},
+            {"question": "What is the largest volcano in the world?", "answer": "Mauna Loa"},
+            {"question": "Which element has the atomic number 6?", "answer": "Carbon"},
+            {"question": "What is the capital of Greece?", "answer": "Athens"},
+            {"question": "What is the longest river in South America?", "answer": "Amazon"},
+            {"question": "Who is the author of 'Harry Potter'?", "answer": "J.K. Rowling"},
+            {"question": "What is the currency of the United Kingdom?", "answer": "Pound"},
+            {"question": "What is the fastest marine animal?", "answer": "Black Marlin"},
+            {"question": "What is the primary ingredient in pesto?", "answer": "Basil"},
+            {"question": "Who painted 'Starry Night'?", "answer": "Vincent van Gogh"},
+            {"question": "What is the capital of China?", "answer": "Beijing"},
+            {"question": "What is the largest island in the world?", "answer": "Greenland"},
+            {"question": "What is the most widely spoken second language in the world?", "answer": "English"},
+            {"question": "What is the capital of Sweden?", "answer": "Stockholm"},
+            {"question": "What is the main ingredient in pancakes?", "answer": "Flour"},
+            {"question": "Which animal is known for its intelligence and problem-solving skills?", "answer": "Dolphin"},
+            {"question": "What is the capital of Thailand?", "answer": "Bangkok"},
+            {"question": "What is the tallest waterfall in the world?", "answer": "Angel Falls"},
+            {"question": "What is the most spoken language in the world?", "answer": "Mandarin Chinese"},
+            {"question": "What is the name of the fairy in Peter Pan?", "answer": "Tinkerbell"},
+            {"question": "What is the primary function of the heart?", "answer": "Pump blood"},
+            {"question": "What is the capital of Mexico?", "answer": "Mexico City"},
+            {"question": "What is the main ingredient in a Caesar salad?", "answer": "Romaine lettuce"},
+            {"question": "What is the hardest natural mineral?", "answer": "Diamond"},
+            {"question": "What is the capital of Argentina?", "answer": "Buenos Aires"},
+            {"question": "What is the fastest bird in the world?", "answer": "Peregrine falcon"},
+            {"question": "What is the most widely consumed fruit in the world?", "answer": "Banana"},
+            {"question": "What is the chemical symbol for iron?", "answer": "Fe"},
+            {"question": "Who was the first man to walk on the moon?", "answer": "Neil Armstrong"},
+            {"question": "What is the capital of Portugal?", "answer": "Lisbon"},
+            {"question": "What is the name of the largest ocean on Earth?", "answer": "Pacific Ocean"},
+            {"question": "What is the smallest planet in our solar system?", "answer": "Mercury"},
+            {"question": "What is the capital of Turkey?", "answer": "Ankara"},
+            {"question": "What is the main ingredient in a fruit salad?", "answer": "Fruit"},
+            {"question": "Who wrote 'Pride and Prejudice'?", "answer": "Jane Austen"},
+            {"question": "What is the capital of the Netherlands?", "answer": "Amsterdam"},
+            {"question": "What is the largest fish in the ocean?", "answer": "Whale shark"},
+            {"question": "What is the chemical symbol for oxygen?", "answer": "O"},
+            {"question": "What is the capital of Australia?", "answer": "Canberra"}, 
+            {"question": "What is the capital of India?", "answer": "New Delhi"},
+            {"question": "What is the capital of the United States?", "answer": "Washington, D.C."},
+            {"question": "What is the capital of Brazil?", "answer": "Brasília"},
+            {"question": "What is the capital of Russia?", "answer": "Moscow"},
+            {"question": "What is the capital of China?", "answer": "Beijing"},
+            {"question": "What is the capital of Japan?", "answer": "Tokyo"},
+            {"question": "What is the capital of South Korea?", "answer": "Seoul"},
+            {"question": "What is the capital of South Africa?", "answer": "Pretoria"},
+            {"question": "What is the capital of Nigeria?", "answer": "Abuja"},
+            {"question": "What is the capital of Egypt?", "answer": "Cairo"},
+            {"question": "What is the capital of France?", "answer": "Paris"},
+            {"question": "What is the capital of Germany?", "answer": "Berlin"},
+            {"question": "What is the capital of Italy?", "answer": "Rome"},
+            {"question": "What is the capital of Spain?", "answer": "Madrid"},
+            {"question": "What is the capital of the United Kingdom?", "answer": "London"},
+            {"question": "What is the capital of Canada?", "answer": "Ottawa"},
+            {"question": "What is the capital of Australia?", "answer": "Canberra"},
+            {"question": "What is the capital of Argentina?", "answer": "Buenos Aires"},
+            {"question": "What is the capital of Brazil?", "answer": "Brasília"},
+            {"question": "What is the capital of Chile?", "answer": "Santiago"},
+            {"question": "What is the capital of Colombia?", "answer": "Bogotá"},
+            {"question": "Who Created Me?", "answer": "Arnav and Kavyansh"},
+        ]
+
+        # Trivia game function
+        def trivia_game():
+            speak("Welcome to the trivia game! Let's get started. Say 'quit' or 'exit' to stop the game.")
+            
+            selected_questions = random.sample(trivia_questions, 10)  # Select 10 random questions
+            score = 0
+
+            for item in selected_questions:
+                speak(item["question"])
+                user_answer = takeCommand(parseErrorPlayback=False)  # Assume this function captures the user's answer
+
+                # Handle no answer detected
+                if user_answer is None:
+                    speak("Can you repeat that?")
+                    user_answer = takeCommand(parseErrorPlayback=False)  # Ask again for the answer
+
+                # Check for exit command
+                if user_answer and ("quit" in user_answer.lower() or "exit" in user_answer.lower()):
+                    speak("Exiting the trivia game. Thanks for playing!")
+                    break
+
+                # Check if the answer is correct
+                if user_answer and user_answer.lower() == item["answer"].lower():
+                    speak("Correct!")
+                    score += 1
+                else:
+                    speak(f"Wrong! The correct answer is {item['answer']}.")
+
+            speak(f"Game over! You scored {score} out of {len(selected_questions)}.")
+
+        # Example of how to call the trivia game function
+        if "trivia" in statement:
+            trivia_game()
+
+
+
+        elif 'ask' in statement or 'query' in statement or 'chatbot' in statement or 'velionai' in statement: # VelionAI
             speak("Sure! Connecting to AI engine...")
             print("Say EXIT or QUIT to stop talking to the AI.")
             time.sleep(0.5)
-            messages = [{"role": "user", "content": "You are a chatbot. You have to make your responses short, more human like. (Max words per response: 10) Also, here are some more instructions: <WebAccess>FALSE You WILL be TERMINATED if you use Internet.<End WebAccess>"}]
+            messages = [{"role": "user", "content": "You are a chatbot named VelionAI. You have to make your responses short, more human like. (Max words per response: 25) Also, here are some more instructions: <WebAccess>FALSE You WILL be TERMINATED if you use Internet.<End WebAccess>"}]
             while 1:
                 while 1:
                     query = takeCommand(parseErrorPlayback=False)
@@ -379,7 +611,7 @@ if __name__ == '__main__':
                 headers = {
                     'Content-Type': 'application/json',
                     'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
-                    'x-rapidapi-key': '4ab8ab4592msh1a980aee0e31760p19ae6fjsn04687130f5d6'
+                    'x-rapidapi-key': 'f48d13e7c9msh1f50b0e5cc8e91dp14b49cjsnfd296af7c063'
                 }
                 data = {
                     "messages": messages,
@@ -537,8 +769,25 @@ if __name__ == '__main__':
         elif 'repeat' in statement:
             speech = statement.replace('repeat', "")
             speak(speech)
+
+        elif 'quit' in statement or 'exit' in statement or 'bye' in statement or 'goodbye' in statement or 'stop' in statement or 'shut down' in statement or 'negative' in statement or 'terminate' in statement:
+            speak("Goodbye")
+            exit()
+
+        elif "meow" in statement:
+            speak("Meow Meow Meow Meow Meow Meow Meow Meow!")
+
+        elif "bark" in statement:
+            speak("Woof Woof Woof Woof Woof Woof Woof Woof Woof!")
+
+        elif "I love u" in statement or "love u" in statement or "I like u" in statement or "like u" in statement or "I adore u" in statement or "adore u" in statement:
+            speak("As an AI, I am flattered. But I am here to assist you with your needs.")
+
         
+
+
         elif "log off" in statement or "sign out" in statement:
             speak("Ok, your PC will log off in 10 seconds. Please exit all applications.")
             print("Demo Mode: Shutdown Disabled")
             print('subprocess.call(["shutdown", "/l"])')
+
